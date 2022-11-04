@@ -31,7 +31,7 @@ namespace OrderBot
                 case State.SIZE:
                     this.oOrder.Size = sInMessage;
                     this.oOrder.Save();
-                    aMessages.Add("What protein would you like on this  " + this.oOrder.Size + " Shawarama?");
+                    aMessages.Add("What would you like to order " + this.oOrder.Size + " Shawarama?");
                     this.nCur = State.PROTEIN;
                     break;
                 case State.PROTEIN:
