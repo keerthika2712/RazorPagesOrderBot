@@ -6,7 +6,7 @@ namespace OrderBot
     {
         private enum State
         {
-            WELCOMING, SIZE, PROTEIN
+            WELCOMING, LOCATION, PICKUPDATE
         }
 
         private State nCur = State.WELCOMING;
@@ -24,19 +24,19 @@ namespace OrderBot
             switch (this.nCur)
             {
                 case State.WELCOMING:
-                    aMessages.Add("Welcome to PickNGo Car Rentals!");
+                    aMessages.Add("Welcome to PicknGo Car Rentals!");
                     aMessages.Add("Make a Reservation");
-                    this.nCur = State.SIZE;
+                    this.nCur = State.LOCATION;
                     break;
-                case State.SIZE:
+                case State.LOCATION:
                     this.oOrder.Size = sInMessage;
                     this.oOrder.Save();
-                    aMessages.Add("What would you like to order " + this.oOrder.Size + " Shawarama?");
-                    this.nCur = State.PROTEIN;
+                    aMessages.Add("choose locations (1. London 2. Waterloo 3. Kitchener)" + this.oOrder.Size + " London?");
+                    this.nCur = State.PICKUPDATE;
                     break;
-                case State.PROTEIN:
+                case State.PICKUPDATE:
                     string sProtein = sInMessage;
-                    aMessages.Add("What toppings would you like on this  " + this.oOrder.Size + " " + sProtein + " Shawarama?");
+                    aMessages.Add("Choose pickup Date and Time" + this.oOrder.Size + " " + sProtein + " NOV 5th, 8:30 PM ?");
                     break;
 
 
