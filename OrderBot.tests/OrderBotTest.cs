@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using Xunit;
-using OrderBot;
+using CarrentalBot;
 
-namespace OrderBot.tests
+namespace CarrentalBot.tests
 {
-    public class OrderBotTest
+    public class CarrentalBotTest
     {
         [Fact]
         public void Test1()

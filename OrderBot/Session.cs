@@ -1,21 +1,21 @@
 ﻿using System;
 
-namespace OrderBot
+namespace CarrentalBot
 {
     public class Session
     {
         private enum State
         {
-            WELCOMING, LOCATION, PICKUPDATE, RETURNDATE, AVAILABLECARS, BOOKING , PAYMENT
+            WELCOMING, LOCATION, PICKUPDATE, RETURNDATE, AVAILABLECARS, BOOKING , PAYMENT, NAME , PHONE
         }
 
         private State nCur = State.WELCOMING;
-        private Order oOrder;
+        private Carrental oCarrental;
 
-        public Session(string sPhone)
+        public Session(string sLocation)
         {
-            this.oOrder = new Order();
-            this.oOrder.Phone = sPhone;
+            this.oCarrental = new Carrental();
+            this.oCarrental.Location = sLocation;
         }
 
         public List<String> OnMessage(String sInMessage)
@@ -29,8 +29,8 @@ namespace OrderBot
                     this.nCur = State.LOCATION;
                     break;
                 case State.LOCATION:
-                    this.oOrder.Size = sInMessage;
-                    this.oOrder.Save();
+                    this.oCarrental.Location = sInMessage;
+                    this.oCarrental.Save();
                     aMessages.Add("choose locations (1. London 2. Waterloo 3. Kitchener)");
                     this.nCur = State.PICKUPDATE;
                     break;
@@ -51,7 +51,17 @@ namespace OrderBot
                     break;
                 case State.BOOKING:
                     string sBooking = sInMessage;
-                    aMessages.Add("Confirm Booking ");
+                    aMessages.Add("Confirm Booking (1. YES 2. No) ");
+                    this.nCur = State.NAME;
+                    break;
+                case State.NAME:
+                    string sName = sInMessage;
+                    aMessages.Add("FULL NAME ");
+                    this.nCur = State.PHONE;
+                    break;
+                case State.PHONE:
+                    string sPhone = sInMessage;
+                    aMessages.Add("PHONE NUMBER ");
                     this.nCur = State.PAYMENT;
                     break;
                 case State.PAYMENT:

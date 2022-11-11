@@ -19,7 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <ProjectReference Include="..\OrderBot\OrderBot.csproj" />
+    <ProjectReference Include="..\CarrentalBot\CarrentalBot.csproj" />
   </ItemGroup>
 
 </Project>

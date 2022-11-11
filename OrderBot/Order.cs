@@ -9,6 +9,8 @@ namespace CarrentalBot
         private string _returndate = String.Empty;
         private string _availablecars = String.Empty;
         private string _booking = String.Empty;
+        private string _name = String.Empty;
+        private string _phonenumber = String.Empty;
         private string _payment = String.Empty;
 
         public string Location{
@@ -34,6 +36,17 @@ namespace CarrentalBot
             get => _booking;
             set => _booking = value;
         }
+
+        public string Name{
+            get => _name;
+            set => _name = value;
+        }
+
+        public string Phonenumber{
+            get => _phonenumber;
+            set => _phonenumber = value;
+        }
+        
         public string Payment{
             get => _payment;
             set => _payment = value;
@@ -48,21 +61,33 @@ namespace CarrentalBot
                 commandUpdate.CommandText =
                 @"
         UPDATE 
-        SET size = $size
-        WHERE phone = $phone
+        SET location = $location, pickupdate = $pickupdate, returndate = $returndate, availablecars = $availablecars, booking = $booking, payment = $payment
+        WHERE name = $name, phone = $phone
     ";
-                commandUpdate.Parameters.AddWithValue("$size", Size);
-                commandUpdate.Parameters.AddWithValue("$phone", Phone);
+                commandUpdate.Parameters.AddWithValue("$location", Location);
+                commandUpdate.Parameters.AddWithValue("$pickupdate", Pickupdate);
+                commandUpdate.Parameters.AddWithValue("$returndate", Returndate);
+                commandUpdate.Parameters.AddWithValue("$availablecars", Availablecars);
+                commandUpdate.Parameters.AddWithValue("$booking", Booking);
+                commandUpdate.Parameters.AddWithValue("$payment", Payment);
+                commandUpdate.Parameters.AddWithValue("$name", Name);
+                commandUpdate.Parameters.AddWithValue("$phonenumber", Phonenumber);
                 int nRows = commandUpdate.ExecuteNonQuery();
                 if(nRows == 0){
                     var commandInsert = connection.CreateCommand();
                     commandInsert.CommandText =
                     @"
-            INSERT INTO orders(size, phone)
-            VALUES($size, $phone)
+            INSERT INTO orders(location, pickupdate, returndate, availablecars, booking, payment, name, phonenumber)
+            VALUES($location, $pickupdate, $returndate, $availablecars, $bboking, $payment, $name, $phonenumber)
         ";
-                    commandInsert.Parameters.AddWithValue("$size", Size);
-                    commandInsert.Parameters.AddWithValue("$phone", Phone);
+                    commandInsert.Parameters.AddWithValue("$location", Location);
+                    commandInsert.Parameters.AddWithValue("$pickupdate", Pickupdate);
+                    commandInsert.Parameters.AddWithValue("$returndate", Returndate);
+                    commandInsert.Parameters.AddWithValue("$availablecars", Availablecars);
+                    commandInsert.Parameters.AddWithValue("$booking", Booking);
+                    commandInsert.Parameters.AddWithValue("$payment", Payment);
+                    commandInsert.Parameters.AddWithValue("$name", Name);
+                    commandInsert.Parameters.AddWithValue("$phonenumber", Phonenumber);
                     int nRowsInserted = commandInsert.ExecuteNonQuery();
 
                 }
