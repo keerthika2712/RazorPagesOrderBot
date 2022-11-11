@@ -31,28 +31,32 @@ namespace OrderBot
                 case State.LOCATION:
                     this.oOrder.Size = sInMessage;
                     this.oOrder.Save();
-                    aMessages.Add("choose locations (1. London 2. Waterloo 3. Kitchener)" + this.oOrder.Size + " ");
+                    aMessages.Add("choose locations (1. London 2. Waterloo 3. Kitchener)");
                     this.nCur = State.PICKUPDATE;
                     break;
                 case State.PICKUPDATE:
                     string sPickupdate = sInMessage;
-                    aMessages.Add("Choose pickup Date and Time" + this.oOrder.Size + " " + sPickupdate + " ");
+                    aMessages.Add("Choose pickup Date and Time (1. Nov 5)");
+                    this.nCur = State.RETURNDATE;
                     break;
                 case State.RETURNDATE:
                     string sReturndate = sInMessage;
-                    aMessages.Add("Choose return Date and Time" + this.oOrder.Size + " " + sReturndate + " ");
+                    aMessages.Add("Choose return Date and Time" );
+                    this.nCur = State.AVAILABLECARS;
                     break;
                 case State.AVAILABLECARS:
                     string sAvailablecars = sInMessage;
-                    aMessages.Add("Choose Available Cars (1. BENZ 2. KIA 3. SKODA 4. TOYOTA " + this.oOrder.Size + " " + sAvailablecars + " ");
+                    aMessages.Add("Choose Available Cars (1. BENZ 2. KIA 3. SKODA 4. TOYOTA ");
+                    this.nCur = State.BOOKING;
                     break;
                 case State.BOOKING:
                     string sBooking = sInMessage;
-                    aMessages.Add("Confirm Booking " + this.oOrder.Size + " " + sBooking + " ");
+                    aMessages.Add("Confirm Booking ");
+                    this.nCur = State.PAYMENT;
                     break;
                 case State.PAYMENT:
                     string sPayment = sInMessage;
-                    aMessages.Add("Make Payment " + this.oOrder.Size + " " + sPayment + " ");
+                    aMessages.Add("Make Payment ");
                     break;
             }
             aMessages.ForEach(delegate (String sMessage)

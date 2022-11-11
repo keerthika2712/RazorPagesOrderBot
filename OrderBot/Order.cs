@@ -1,20 +1,42 @@
 using Microsoft.Data.Sqlite;
 
-namespace OrderBot
+namespace CarrentalBot
 {
-    public class Order : ISQLModel
+    public class Carrental : ISQLModel
     {
-        private string _size = String.Empty;
-        private string _phone = String.Empty;
+        private string _location = String.Empty;
+        private string _pickupdate = String.Empty;
+        private string _returndate = String.Empty;
+        private string _availablecars = String.Empty;
+        private string _booking = String.Empty;
+        private string _payment = String.Empty;
 
-        public string Phone{
-            get => _phone;
-            set => _phone = value;
+        public string Location{
+            get => _location;
+            set => _location = value;
         }
 
-        public string Size{
-            get => _size;
-            set => _size = value;
+        public string Pickupdate{
+            get => _pickupdate;
+            set => _pickupdate = value;
+        }
+
+        public string Returndate{
+            get => _returndate;
+            set => _returndate = value;
+        }
+        public string Availablecars{
+            get => _availablecars;
+            set => _availablecars = value;
+        }
+
+        public string Booking{
+            get => _booking;
+            set => _booking = value;
+        }
+        public string Payment{
+            get => _payment;
+            set => _payment = value;
         }
 
         public void Save(){
@@ -25,7 +47,7 @@ namespace OrderBot
                 var commandUpdate = connection.CreateCommand();
                 commandUpdate.CommandText =
                 @"
-        UPDATE orders
+        UPDATE 
         SET size = $size
         WHERE phone = $phone
     ";
