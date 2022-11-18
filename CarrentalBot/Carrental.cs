@@ -59,11 +59,9 @@ namespace CarrentalBot
 
                 var commandUpdate = connection.CreateCommand();
                 commandUpdate.CommandText =
-                @"
-        UPDATE 
+                @"UPDATE ORDERS
         SET location = $location, pickupdate = $pickupdate, returndate = $returndate, availablecars = $availablecars, booking = $booking, payment = $payment
-        WHERE name = $name, phone = $phone
-    ";
+        WHERE name = $name and phone = $phone";
                 commandUpdate.Parameters.AddWithValue("$location", Location);
                 commandUpdate.Parameters.AddWithValue("$pickupdate", Pickupdate);
                 commandUpdate.Parameters.AddWithValue("$returndate", Returndate);
@@ -71,14 +69,14 @@ namespace CarrentalBot
                 commandUpdate.Parameters.AddWithValue("$booking", Booking);
                 commandUpdate.Parameters.AddWithValue("$payment", Payment);
                 commandUpdate.Parameters.AddWithValue("$name", Name);
-                commandUpdate.Parameters.AddWithValue("$phonenumber", Phonenumber);
+                commandUpdate.Parameters.AddWithValue("$phone", Phonenumber);
                 int nRows = commandUpdate.ExecuteNonQuery();
                 if(nRows == 0){
                     var commandInsert = connection.CreateCommand();
                     commandInsert.CommandText =
                     @"
-            INSERT INTO orders(location, pickupdate, returndate, availablecars, booking, payment, name, phonenumber)
-            VALUES($location, $pickupdate, $returndate, $availablecars, $bboking, $payment, $name, $phonenumber)
+            INSERT INTO orders(location, pickupdate, returndate, availablecars, booking, payment, name, phone)
+            VALUES($location, $pickupdate, $returndate, $availablecars, $booking, $payment, $name, $phone)
         ";
                     commandInsert.Parameters.AddWithValue("$location", Location);
                     commandInsert.Parameters.AddWithValue("$pickupdate", Pickupdate);
@@ -87,7 +85,7 @@ namespace CarrentalBot
                     commandInsert.Parameters.AddWithValue("$booking", Booking);
                     commandInsert.Parameters.AddWithValue("$payment", Payment);
                     commandInsert.Parameters.AddWithValue("$name", Name);
-                    commandInsert.Parameters.AddWithValue("$phonenumber", Phonenumber);
+                    commandInsert.Parameters.AddWithValue("$phone", Phonenumber);
                     int nRowsInserted = commandInsert.ExecuteNonQuery();
 
                 }
