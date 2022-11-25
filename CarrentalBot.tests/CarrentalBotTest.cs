@@ -2,11 +2,24 @@ using System;
 using System.IO;
 using Xunit;
 using CarrentalBot;
+using Microsoft.Data.Sqlite;
 
 namespace CarrentalBot.tests
 {
     public class CarrentalBotTest
     {
+        public CarrentalBotTest()
+        {
+            using (var connection = new SqliteConnection(DB.GetConnectionString()))
+            {
+                connection.Open();
+
+                var commandUpdate = connection.CreateCommand();
+                commandUpdate.CommandText =
+                @"DELETE FROM ORDERS";
+                commandUpdate.ExecuteNonQuery();
+            }
+        }
         [Fact]
         public void Test1()
         {
@@ -25,7 +38,7 @@ namespace CarrentalBot.tests
         {
             Session oSession = new Session("12345");
             oSession.OnMessage("hello");
-            List <String> sInput = oSession.OnMessage("reservation");
+            List<String> sInput = oSession.OnMessage("reservation");
             Assert.True(sInput[0].ToLower().Contains("choose locations"));
         }
         [Fact]
@@ -34,7 +47,7 @@ namespace CarrentalBot.tests
             Session oSession = new Session("12345");
             oSession.OnMessage("hello");
             oSession.OnMessage("reservation");
-            List <String> sInput = oSession.OnMessage("london");
+            List<String> sInput = oSession.OnMessage("london");
             Assert.True(sInput[0].ToLower().Contains("pickup"));
         }
         [Fact]
@@ -44,10 +57,10 @@ namespace CarrentalBot.tests
             oSession.OnMessage("hello");
             oSession.OnMessage("reservation");
             oSession.OnMessage("london");
-            List <String> sInput = oSession.OnMessage(" 5 NOV ");
+            List<String> sInput = oSession.OnMessage(" 5 NOV ");
             Assert.True(sInput[0].ToLower().Contains("return"));
         }
-         [Fact]
+        [Fact]
         public void TestAvailablecars()
         {
             Session oSession = new Session("12345");
@@ -55,11 +68,11 @@ namespace CarrentalBot.tests
             oSession.OnMessage("reservation");
             oSession.OnMessage("london");
             oSession.OnMessage(" 5 NOV ");
-            List <String> sInput = oSession.OnMessage(" 6 NOV ");
+            List<String> sInput = oSession.OnMessage(" 6 NOV ");
             Assert.True(sInput[0].ToLower().Contains("available"));
         }
-         [Fact]
-           public void TestBooking()
+        [Fact]
+        public void TestBooking()
         {
             Session oSession = new Session("12345");
             oSession.OnMessage("hello");
@@ -68,11 +81,11 @@ namespace CarrentalBot.tests
             oSession.OnMessage(" 5 NOV ");
             oSession.OnMessage(" 6 NOV ");
             oSession.OnMessage(" BENZ ");
-            List <String> sInput = oSession.OnMessage(" Yes ");
+            List<String> sInput = oSession.OnMessage(" Yes ");
             Assert.True(sInput[0].ToLower().Contains("full name"));
         }
-         [Fact]
-           public void TestName()
+        [Fact]
+        public void TestName()
         {
             Session oSession = new Session("12345");
             oSession.OnMessage("hello");
@@ -82,10 +95,10 @@ namespace CarrentalBot.tests
             oSession.OnMessage(" 6 NOV ");
             oSession.OnMessage(" BENZ ");
             oSession.OnMessage(" Yes ");
-            List <String> sInput = oSession.OnMessage(" TIM ");
+            List<String> sInput = oSession.OnMessage(" TIM ");
             Assert.True(sInput[0].ToLower().Contains("phone"));
-        } 
-         [Fact]
+        }
+        [Fact]
         public void TestPhone()
         {
             Session oSession = new Session("12345");
@@ -97,7 +110,7 @@ namespace CarrentalBot.tests
             oSession.OnMessage(" BENZ ");
             oSession.OnMessage(" Yes ");
             oSession.OnMessage(" TIM ");
-            List <String> sInput = oSession.OnMessage("9395159102");
+            List<String> sInput = oSession.OnMessage("9395159102");
             Assert.True(sInput[0].ToLower().Contains("payment"));
         }
 
