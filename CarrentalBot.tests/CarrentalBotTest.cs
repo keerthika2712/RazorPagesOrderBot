@@ -111,7 +111,7 @@ namespace CarrentalBot.tests
             oSession.OnMessage(" Yes ");
             oSession.OnMessage(" TIM ");
             List<String> sInput = oSession.OnMessage("9395159102");
-            Assert.True(sInput[0].ToLower().Contains("payment"));
+            Assert.True(sInput[0].ToLower().Contains("successful"));
         }
 
     }

@@ -6,7 +6,7 @@ namespace CarrentalBot
     {
         private enum State
         {
-            WELCOMING, LOCATION, PICKUPDATE, RETURNDATE, AVAILABLECARS, BOOKING , PAYMENT, NAME , PHONE
+            WELCOMING, LOCATION, PICKUPDATE, RETURNDATE, AVAILABLECARS, BOOKING, SUCCESSFUL, NAME, PHONE
         }
 
         private State nCur = State.WELCOMING;
@@ -25,23 +25,32 @@ namespace CarrentalBot
             {
                 case State.WELCOMING:
                     aMessages.Add("Welcome to PicknGo Car Rentals!");
-                    aMessages.Add("Make a Reservation");
+                    aMessages.Add("Make a Reservation (1. Yes 2. No) ");
                     this.nCur = State.LOCATION;
                     break;
                 case State.LOCATION:
                     this.oCarrental.Location = sInMessage;
                     this.oCarrental.Save();
-                    aMessages.Add("choose locations (1. London 2. Waterloo 3. Kitchener)");
-                    this.nCur = State.PICKUPDATE;
+                    string sLocation = sInMessage;
+                    if (sLocation == "1")
+                    {
+                        aMessages.Add("choose locations (1. London 2. Waterloo 3. Kitchener)");
+                        this.nCur = State.PICKUPDATE;
+                    }
+                    else
+                    {
+                        aMessages.Add("Thank You! Visit Again");
+                        this.nCur = State.WELCOMING;
+                    }
                     break;
                 case State.PICKUPDATE:
                     string sPickupdate = sInMessage;
-                    aMessages.Add("Choose pickup Date and Time (1. Nov 5)");
+                    aMessages.Add("Choose pickup Date and Time");
                     this.nCur = State.RETURNDATE;
                     break;
                 case State.RETURNDATE:
                     string sReturndate = sInMessage;
-                    aMessages.Add("Choose return Date and Time" );
+                    aMessages.Add("Choose return Date and Time");
                     this.nCur = State.AVAILABLECARS;
                     break;
                 case State.AVAILABLECARS:
@@ -56,23 +65,31 @@ namespace CarrentalBot
                     break;
                 case State.NAME:
                     string sName = sInMessage;
-                    aMessages.Add("FULL NAME ");
-                    this.nCur = State.PHONE;
+                    if (sName == "1")
+                    {
+                        aMessages.Add("FULL NAME ");
+                        this.nCur = State.PHONE;
+                    }
+                    else
+                    {
+                        aMessages.Add("Thank You! Visit Again");
+                        this.nCur = State.WELCOMING;
+                    }
                     break;
                 case State.PHONE:
                     string sPhone = sInMessage;
                     aMessages.Add("PHONE NUMBER ");
-                    this.nCur = State.PAYMENT;
+                    this.nCur = State.SUCCESSFUL;
                     break;
-                case State.PAYMENT:
+                case State.SUCCESSFUL:
                     string sPayment = sInMessage;
-                    aMessages.Add("Make Payment ");
+                    aMessages.Add("Booking has been sucessful");
                     break;
             }
             aMessages.ForEach(delegate (String sMessage)
-            {
-                System.Diagnostics.Debug.WriteLine(sMessage);
-            });
+                {
+                    System.Diagnostics.Debug.WriteLine(sMessage);
+                });
             return aMessages;
         }
 
